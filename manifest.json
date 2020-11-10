@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "rmtr",
+  "version": "0.1.0",
+
+  "description": "New tab extension for chrome",
+  "author": "Dmitry Shvetsov",
+
+  "chrome_url_overrides": {
+    "newtab": "build/index.html"
+  },
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}
