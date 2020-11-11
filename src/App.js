@@ -8,6 +8,10 @@ const TIME_FORMAT_WITH_SECONDS = 'LTS';
 const TIME_FORMAT = 'LT';
 const SECOND = 1000;
 
+const INITIAL_LOCATIONS = [
+  getCurrentLocation()
+];
+
 function createLocation({ timeZone, isCurrent }) {
   if (!moment.tz.zone(timeZone)) {
     throw new Error(`Wrong time zone ${timeZone}`);
@@ -103,9 +107,7 @@ function AddLocationForm({ submit }) {
 
 function App() {
   const [locations, setLocations] = React.useState(
-    prepareLocations([
-      getCurrentLocation()
-    ])
+    prepareLocations(INITIAL_LOCATIONS)
   );
 
   const handleAddLocation = (newLocationName) => {
