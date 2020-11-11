@@ -12,6 +12,7 @@
   font-size: calc(10px + 2vmin);
   color: #403D39;
 }
+
 .App-footer {
   min-height: 20vh;
   background-color: #FFFCF2;
@@ -25,6 +26,13 @@
 
 .App-link {
   color: #EB5E28;
+}
+
+.App-button {
+  border: none;
+  background-color: transparent;
+  font-size: 1.25em;
+  outline: none;
 }
 
 .App-location {
