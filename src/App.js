@@ -35,7 +35,7 @@ function formatLocationName(str) {
   return str.replace(/_/, ' ');
 }
 
-function Time({ location }) {
+function Time({ location, onRemove }) {
   const [dateTime, setDateTime] = React.useState(moment().tz(location.timeZone));
   React.useEffect(() => {
     const interval = setInterval(
@@ -44,9 +44,18 @@ function Time({ location }) {
     );
     return () => clearInterval(interval);
   }, [location.timeZone]);
+
   return (
     <div className="App-location">
       {formatLocationName(location.timeZone)}
+      {!location.isCurrent &&
+        <Button
+          className="App-location--close"
+          text="remove"
+          type="secondary"
+          onClick={() => onRemove(location)}
+        />
+      }
       <br/>
       <time
         className="App-time"
@@ -58,8 +67,9 @@ function Time({ location }) {
   );
 }
 
-function Button({ text, ...rest }) {
-  return <button className="App-button" {...rest}>{text}</button>;
+function Button({ text, type, className, ...rest }) {
+  const btnClassName = `App-button App-button__${type || 'default'} ${className}`;
+  return <button className={btnClassName} {...rest}>{text}</button>;
 }
 
 function ZonePickField(props) {
@@ -95,11 +105,11 @@ function AddLocationForm({ submit }) {
     return (
       <div style={{ width: '350px', textAlign: 'left' }}>
         <ZonePickField onChange={handleChange} />
-        <Button text="cancel" onClick={() => setEdited(!isEdited)}/>
+        <Button text="cancel" type="secondary" onClick={() => setEdited(!isEdited)}/>
       </div>
     );
   }
-  return <Button text="+" onClick={() => setEdited(!isEdited)}/>;
+  return <Button text="+" type="secondary" onClick={() => setEdited(!isEdited)}/>;
 }
 
 function App() {
@@ -114,11 +124,24 @@ function App() {
       createLocation({ timeZone: newLocationName })
     ]);
   }
+  const handleRemoveLocation = (location) => {
+    const idx = locations.findIndex((item) => item.timeZone === location.timeZone);
+    setLocations([
+      ...locations.slice(0, idx),
+      ...locations.slice(idx + 1)
+    ]);
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        {locations.map((item) => <Time key={item.timeZone} location={item} />)}
+        {locations.map((item) => (
+          <Time
+            key={item.timeZone}
+            location={item}
+            onRemove={handleRemoveLocation}
+          />
+        ))}
         <AddLocationForm submit={handleAddLocation} />
       </header>
       <footer className="App-footer">

@@ -36,10 +36,23 @@
   cursor: pointer;
 }
 
+.App-button__default {
+  color: inherit;
+}
+.App-button__secondary {
+  color: #CCC5B9;
+}
+
 .App-location {
   text-align: left;
   min-width: 350px;
   line-height: 1.625em;
+}
+.App-location .App-location--close {
+  visibility: hidden;
+}
+.App-location:hover .App-location--close {
+  visibility: visible;
 }
 
 .App-time {
