@@ -33,11 +33,13 @@
   background-color: transparent;
   font-size: 1.25em;
   outline: none;
+  cursor: pointer;
 }
 
 .App-location {
   text-align: left;
   min-width: 350px;
+  line-height: 1.625em;
 }
 
 .App-time {
