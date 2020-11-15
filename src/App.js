@@ -2,15 +2,12 @@ import React from 'react';
 import Select from 'react-select';
 import moment from 'moment-timezone';
 import './App.css';
+import { useLocalStorage } from './hooks'
 
 const DATE_TIME_FORMAT = `${moment.HTML5_FMT.DATE} ${moment.HTML5_FMT.TIME}`;
 const TIME_FORMAT_WITH_SECONDS = 'LTS';
 const TIME_FORMAT = 'LT';
 const SECOND = 1000;
-
-const INITIAL_LOCATIONS = [
-  getCurrentLocation()
-];
 
 function createLocation({ timeZone, isCurrent }) {
   if (!moment.tz.zone(timeZone)) {
@@ -106,8 +103,9 @@ function AddLocationForm({ submit }) {
 }
 
 function App() {
-  const [locations, setLocations] = React.useState(
-    prepareLocations(INITIAL_LOCATIONS)
+  const [locations, setLocations] = useLocalStorage(
+    'rmtr--locations_list',
+    prepareLocations([getCurrentLocation()])
   );
 
   const handleAddLocation = (newLocationName) => {
