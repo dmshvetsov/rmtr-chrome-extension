@@ -31,11 +31,19 @@ function getCurrentLocation() {
   });
 }
 
+function timeZoneDiff(a, b) {
+  return (moment().tz(a).utcOffset() - moment().tz(b).utcOffset()) / 60
+}
+
+function formatHourDiff(num) {
+  return `${(num > 0) ? '+' : '-'}${Math.abs(num)}`;
+}
+
 function formatLocationName(str) {
   return str.replace(/_/, ' ');
 }
 
-function Time({ location, onRemove }) {
+function Time({ location, onRemove, currentTimeZone }) {
   const [dateTime, setDateTime] = React.useState(moment().tz(location.timeZone));
   React.useEffect(() => {
     const interval = setInterval(
@@ -49,12 +57,15 @@ function Time({ location, onRemove }) {
     <div className="App-location">
       {formatLocationName(location.timeZone)}
       {!location.isCurrent &&
-        <Button
-          className="App-location--close"
-          text="remove"
-          type="secondary"
-          onClick={() => onRemove(location)}
-        />
+        <React.Fragment>
+          {` ${formatHourDiff(timeZoneDiff(location.timeZone, currentTimeZone))} `}
+          <Button
+            className="App-location--close"
+            text="remove"
+            type="secondary"
+            onClick={() => onRemove(location)}
+          />
+        </React.Fragment>
       }
       <br/>
       <time
@@ -140,6 +151,7 @@ function App() {
             key={item.timeZone}
             location={item}
             onRemove={handleRemoveLocation}
+            currentTimeZone={getCurrentLocation().timeZone}
           />
         ))}
         <AddLocationForm submit={handleAddLocation} />
