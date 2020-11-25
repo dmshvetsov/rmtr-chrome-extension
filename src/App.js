@@ -114,7 +114,7 @@ function AddLocationForm({ submit }) {
 
   if (isEdited) {
     return (
-      <div style={{ width: '350px', textAlign: 'left' }}>
+      <div className="App-location-input">
         <ZonePickField onChange={handleChange} />
         <Button text="cancel" type="secondary" onClick={() => setEdited(!isEdited)}/>
       </div>
@@ -146,15 +146,17 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {locations.map((item) => (
-          <Time
-            key={item.timeZone}
-            location={item}
-            onRemove={handleRemoveLocation}
-            currentTimeZone={getCurrentLocation().timeZone}
-          />
-        ))}
-        <AddLocationForm submit={handleAddLocation} />
+        <div className="App-locations-container">
+          {locations.map((item) => (
+            <Time
+              key={item.timeZone}
+              location={item}
+              onRemove={handleRemoveLocation}
+              currentTimeZone={getCurrentLocation().timeZone}
+            />
+          ))}
+          <AddLocationForm submit={handleAddLocation} />
+        </div>
       </header>
       <footer className="App-footer">
         <a
