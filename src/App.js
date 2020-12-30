@@ -130,10 +130,14 @@ function App() {
   );
 
   const handleAddLocation = (newLocationName) => {
-    setLocations([
+    const newLocations = [
       ...locations,
       createLocation({ timeZone: newLocationName })
-    ]);
+    ].sort(
+      (tz1, tz2) => moment().tz(tz1.timeZone).utcOffset() - moment().tz(tz2.timeZone).utcOffset()
+    );
+    console.log(newLocations.map(el => el.timeZone));
+    setLocations(newLocations);
   }
   const handleRemoveLocation = (location) => {
     const idx = locations.findIndex((item) => item.timeZone === location.timeZone);
